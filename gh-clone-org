@@ -51,7 +51,7 @@ do
     -t | --topic ) shift
       CLONE_TOPIC="$1"
       ;;
-    -y | --yes ) ACCEPT_PROMPT="true"
+    -y | --yes ) ACCEPT_PROMPT=true
       ;;
     -p | --path ) shift
       CLONE_PATH="$1"
@@ -59,7 +59,7 @@ do
     -s | --search ) shift
       SEARCH="$1"
       ;;
-    -n | --dry-run) DRY_RUN="true"
+    -n | --dry-run) DRY_RUN=true
       ;;
     -h | --help ) usage
       exit
@@ -113,14 +113,14 @@ then
   CLONE_PATH="$(pwd)";
 fi
 
-if [ "$DRY_RUN" == "true" ]
+if [ "$DRY_RUN" == true ]
 then
   echo "This would have cloned the following $COUNT repositories to $CLONE_PATH:"
   echo "$REPOS"
   exit 0
 fi
 
-if [ "$ACCEPT_PROMPT" != "true" ]
+if [ "$ACCEPT_PROMPT" != true ]
 then
   VALID="false"
   echo "Cloning $COUNT repositories to $CLONE_PATH. Continue? Anything other than 'y' or 'l' will terminate"
@@ -132,7 +132,7 @@ then
       echo "$REPOS"
     elif [ "$YESNO" = "y" ]
     then
-      VALID="true"
+      VALID=true
     else
       exit 1
     fi
