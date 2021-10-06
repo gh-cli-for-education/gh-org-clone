@@ -4,8 +4,22 @@ A github-cli extension script to clone all repositories in an organization, opti
 
 ## Installation
 
+The original version is here:
+
 ```bash
 gh extension install matt-bartel/gh-clone-org
+```
+
+```
+[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh extension install crguezl/clone-orgextension repository name must start with `gh-`
+[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh extension install crguezl/gh-clone-org
+Clonando en '/Users/casianorodriguezleon/.local/share/gh/extensions/gh-clone-org'...
+remote: Enumerating objects: 53, done.
+remote: Counting objects: 100% (53/53), done.
+remote: Compressing objects: 100% (39/39), done.
+remote: Total 53 (delta 20), reused 40 (delta 13), pack-reused 0
+Recibiendo objetos: 100% (53/53), 13.51 KiB | 6.76 MiB/s, listo.
+Resolviendo deltas: 100% (20/20), listo.
 ```
 
 ## Usage
