@@ -29,3 +29,96 @@ gh clone-org [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG
   -h, --help
     Display this message.
 ```
+
+## Examples
+
+```
+$ gh clone-org -s iaas -n ULL-ESIT-DMSI-1920
+Retrieving the list of repositories: search/repositories?q=org%3AULL-ESIT-DMSI-1920%20iaas
+This would have cloned the following 6 repositories to /Users/casianorodriguezleon/campus-virtual/2021/learning/gh-learning/gh-clone-org:
+ULL-ESIT-DMSI-1920/p1-t1-iaas-alu0101232812
+ULL-ESIT-DMSI-1920/p1-t1-iaas-alu0100592306
+ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
+ULL-ESIT-DMSI-1920/p1-t1-iaas-Wololegend
+ULL-ESIT-DMSI-1920/p1-t1-iaas-crguezl
+ULL-ESIT-DMSI-1920/p1-t1-iaas-lauramanzini
+```
+
+```
+$ export GITHUB_ORG=ULL-ESIT-DMSI-1920
+$ gh clone-org -s fuegonella  -n
+Retrieving the list of repositories: search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella
+This would have cloned the following 3 repositories to /Users/casianorodriguezleon/campus-virtual/2021/learning/gh-learning/gh-clone-org:
+ULL-ESIT-DMSI-1920/markdown-fuegonellaa
+ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa
+ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
+```
+
+To obtain the repos `gh-clone-org` makes a request like:
+
+```
+$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella
+{
+    "total_count": 3,
+    "incomplete_results": false,
+    "items": [
+        {
+            "id": 411615845,
+            "node_id": "R_kgDOGIjCZQ",
+            "name": "markdown-fuegonellaa",
+            "full_name": "ULL-ESIT-DMSI-1920/markdown-fuegonellaa",
+            "private": false,
+            "owner": { ... },
+            ...
+            "score": 1.0
+        },
+        {
+            ...
+            "name": "pb-gh-campus-expert-fuegonellaa",
+            "full_name": "ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa",
+            "private": false,
+            "owner": { ... },
+            ...
+            "score": 1.0
+        },
+        {
+            ...
+            "full_name": "ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa",
+            "private": true,
+            "owner": { ...  },
+            ...
+            "score": 1.0
+        }
+    ]
+}
+```
+
+The json is very large and contains a lot of information!
+
+We can make use of [jq](https://ull-esit-dmsi-1920.github.io/tema1-introduccion/jq) to filter the results:
+
+```
+[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella | jq .items[].full_name -
+"ULL-ESIT-DMSI-1920/markdown-fuegonellaa"
+"ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa"
+"ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa"
+```
+
+Fortunately, `gh` has a `--jq` option that does the same that the former pipe example.
+But first, let avoid the `gh` default paginator:
+
+
+```
+[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh  config set pager cat
+[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh  config get pager
+cat
+```
+
+and here it is the output using `--jq`:
+
+```
+[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella --jq .items[].full_name 
+ULL-ESIT-DMSI-1920/markdown-fuegonellaa
+ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa
+ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
+```

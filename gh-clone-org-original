@@ -1,70 +1,57 @@
 #!/bin/bash
 
-set -x 
-
-# set -e
-# set -e was an attempt to add "automatic error detection" to the shell. 
-# Its goal was to cause the shell to abort any time an error occurred, so you don't have to put || exit 1 after each important command.
-# This does not work well in practice. http://mywiki.wooledge.org/BashFAQ/105
+set -e
 
 usage()
 {
-  cat << HELPMessage
-gh clone-org [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG
-  ORG
-    Github organization. Required if the GITHUB_ORG environment variable is not set.
-  -y, --yes
-    Clone without prompting for confirmation.
-  -p, --path PATH
-    Clone path. Default: current directory.
-  -t, --topic TOPIC
-    Clone repositories with this topic
-  -s --search QUERY
-    Clone repositories found by this search string. If this is provided '-t' will be ignored.
-    Example: -s \"is:public language:go\"
-    See: https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-for-repositories
-  -n, --dry-run
-    Do not actually clone, just show what would be cloned
-  -h, --help
-    Display this message.
-HELPMessage
+  echo "gh clone-org [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG"
+  echo "  ORG"
+  echo "    Github organization. Required if the GITHUB_ORG environment variable is not set."
+  echo "  -y, --yes"
+  echo "    Clone without prompting for confirmation."
+  echo "  -p, --path PATH"
+  echo "    Clone path. Default: current directory."
+  echo "  -t, --topic TOPIC"
+  echo "    Clone repositories with this topic"
+  echo "  -s --search QUERY"
+  echo "    Clone repositories found by this search string. If this is provided '-t' will be ignored."
+  echo "    Example: -s \"is:public language:go\""
+  echo "    See: https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-for-repositories"
+  echo "  -n, --dry-run"
+  echo "    Do not actually clone, just show what would be cloned"
+  echo "  -h, --help"
+  echo "    Display this message."
 }
 
-# See https://gist.github.com/cdown/1163649
+# https://gist.github.com/cdown/1163649
 urlencode() {
   # urlencode <string>
 
-  #old_lc_collate=$LC_COLLATE
-  #local LC_COLLATE=C
-  local LANG=C
-
+  old_lc_collate=$LC_COLLATE
+  LC_COLLATE=C
 
   local length="${#1}"
   for (( i = 0; i < length; i++ )); do
     local c="${1:$i:1}"
     case $c in
       [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
-      *) printf '%%%02X' "'$c" ;; 
-            # %x, %X - Print the argument as an unsigned hexadecimal integer
-            # %[flags][width][.precision]specifier
-            # %% - Print a literal % symbol.
+      *) printf '%%%02X' "'$c" ;;
     esac
   done
 
-  #LC_COLLATE=$old_lc_collate
+  LC_COLLATE=$old_lc_collate
 }
 
 while [ "$1" != "" ]
 do
   case $1 in
-    -o | --org ) shift 
-      # shift is a bash built-in which kind of removes arguments from the beginning of the argument list
+    -o | --org ) shift
       GITHUB_ORG="$1"
       ;;
     -t | --topic ) shift
       CLONE_TOPIC="$1"
       ;;
-    -y | --yes ) ACCEPT_PROMPT=true
+    -y | --yes ) ACCEPT_PROMPT="true"
       ;;
     -p | --path ) shift
       CLONE_PATH="$1"
@@ -72,7 +59,7 @@ do
     -s | --search ) shift
       SEARCH="$1"
       ;;
-    -n | --dry-run) DRY_RUN=true
+    -n | --dry-run) DRY_RUN="true"
       ;;
     -h | --help ) usage
       exit
@@ -92,10 +79,9 @@ fi
 
 JQ_QUERY='.items[].full_name'
 QUERY="search/repositories?q=org%3A$GITHUB_ORG"
-if [ -n "$SEARCH" ] # String $SEARCH is not null
+if [ -n "$SEARCH" ]
 then
-  # $(...) starts a subshell and returns the output
-  QUERY+="%20$(urlencode "$SEARCH")"
+  QUERY="$QUERY%20$(urlencode "$SEARCH")"
 elif [ -n "$CLONE_TOPIC" ]
 then
   QUERY="$QUERY%20topic:$CLONE_TOPIC"
@@ -111,7 +97,7 @@ else
   fi
 fi
 
-echo "Retrieving the list of repositories: QUERY=$QUERY JQ_QUERY=$JQ_QUERY"
+echo "Retrieving the list of repositories: $QUERY"
 REPOS=$(gh api --paginate "$QUERY" -q "$JQ_QUERY")
 
 if [ -z "$REPOS" ]
@@ -136,7 +122,7 @@ fi
 
 if [ "$ACCEPT_PROMPT" != "true" ]
 then
-  VALID=false
+  VALID="false"
   echo "Cloning $COUNT repositories to $CLONE_PATH. Continue? Anything other than 'y' or 'l' will terminate"
   while [ "$VALID" = "false" ]
   do
@@ -146,7 +132,7 @@ then
       echo "$REPOS"
     elif [ "$YESNO" = "y" ]
     then
-      VALID=true
+      VALID="true"
     else
       exit 1
     fi
