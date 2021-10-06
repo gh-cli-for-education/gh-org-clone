@@ -44,6 +44,8 @@ ULL-ESIT-DMSI-1920/p1-t1-iaas-crguezl
 ULL-ESIT-DMSI-1920/p1-t1-iaas-lauramanzini
 ```
 
+### Default org with GITHUB_ORG
+
 ```
 $ export GITHUB_ORG=ULL-ESIT-DMSI-1920
 $ gh clone-org -s fuegonella  -n
@@ -53,6 +55,8 @@ ULL-ESIT-DMSI-1920/markdown-fuegonellaa
 ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa
 ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
 ```
+
+### How it works 
 
 To obtain the repos `gh-clone-org` makes a request like:
 
@@ -93,6 +97,8 @@ $ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella
 }
 ```
 
+### jq to the rescue
+
 The json is very large and contains a lot of information!
 
 We can make use of [jq](https://ull-esit-dmsi-1920.github.io/tema1-introduccion/jq) to filter the results:
@@ -105,6 +111,7 @@ We can make use of [jq](https://ull-esit-dmsi-1920.github.io/tema1-introduccion/
 ```
 
 Fortunately, `gh` has a `--jq` option that does the same that the former pipe example.
+
 But first, let avoid the `gh` default paginator:
 
 
@@ -121,4 +128,21 @@ and here it is the output using `--jq`:
 ULL-ESIT-DMSI-1920/markdown-fuegonellaa
 ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa
 ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
+```
+
+### what happens if one of the repos already exists
+
+If the repo already exists the script attempts to pull the last version of the default branch
+
+```
+~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ ./gh clone-org -s markdown-fuegonellaa -y -p tmp/
+Retrieving the list of repositories: QUERY=search/repositories?q=org%3AULL-ESIT-DMSI-1920%20markdown-fuegonellaa JQ_QUERY=.items[].full_name
+Cloning 1 repositories to tmp/...
+ULL-ESIT-DMSI-1920/markdown-fuegonellaa
+ULL-ESIT-DMSI-1920
+markdown-fuegonellaa
+'markdown-fuegonellaa' already exists, attempting to checkout the default branch and pull
+Ya en 'main'
+Tu rama está actualizada con 'origin/main'.
+Ya está actualizado.
 ```
