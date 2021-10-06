@@ -34,8 +34,6 @@ HELPMessage
 urlencode() {
   # urlencode <string>
 
-  #old_lc_collate=$LC_COLLATE
-  #local LC_COLLATE=C
   local LANG=C
 
 
@@ -50,8 +48,6 @@ urlencode() {
             # %% - Print a literal % symbol.
     esac
   done
-
-  #LC_COLLATE=$old_lc_collate
 }
 
 while [ "$1" != "" ]
