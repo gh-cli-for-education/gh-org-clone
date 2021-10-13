@@ -36,7 +36,7 @@ gh org-clone [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG
     Display this message.
 ```
 
-## Examples
+## Examples of use
 
 ```
 $ gh org-clone -s iaas -n ULL-ESIT-DMSI-1920
@@ -107,13 +107,43 @@ $ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella
 
 The json is very large and contains a lot of information!
 
-We can make use of [jq](https://ull-esit-dmsi-1920.github.io/tema1-introduccion/jq) to filter the results:
+We can make use of `jq` to filter the results
+(See [jq](https://ull-esit-dmsi-1920.github.io/tema1-introduccion/jq)): 
 
 ```
 [~/campus-virtual/2021/learning/gh-learning/gh-org-clone(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella | jq .items[].full_name -
 "ULL-ESIT-DMSI-1920/markdown-fuegonellaa"
 "ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa"
 "ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa"
+```
+
+We can make very complex querys with `jq`:
+
+```
+$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella | \
+  jq '.items[] | .full_name, .private, .commits_url'
+"ULL-ESIT-DMSI-1920/markdown-fuegonellaa"
+false
+"https://api.github.com/repos/ULL-ESIT-DMSI-1920/markdown-fuegonellaa/commits{/sha}"
+"ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa"
+false
+"https://api.github.com/repos/ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa/commits{/sha}"
+"ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa"
+true
+"https://api.github.com/repos/ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa/commits{/sha}"
+```
+
+Here is an example using the commits URL of one of the repos:
+
+```
+$ gh api "https://api.github.com/repos/ULL-ESIT-DMSI-1920/markdown-fuegonellaa/commits" | \
+      jq '.[].commit | (.author | .date, .name), .message'
+"2021-09-29T10:11:05Z"
+"Antonella García"
+"Practica 1"
+"2021-09-29T09:46:08Z"
+"github-classroom[bot]"
+"Add online IDE url"
 ```
 
 Fortunately, `gh` has a `--jq` option that does the same that the former pipe example.
@@ -127,7 +157,7 @@ But first, let avoid the `gh` default paginator:
 cat
 ```
 
-and here it is the output using `--jq`:
+And here it is the output of `gh` using `--jq`:
 
 ```
 [~/campus-virtual/2021/learning/gh-learning/gh-org-clone(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella --jq .items[].full_name 
@@ -138,7 +168,8 @@ ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
 
 ### What happens if one of the repos already exists
 
-If the repo already exists the script attempts to pull the last version of the default branch
+If the repo already exists the script 
+attempts to pull the last version of the default branch
 
 ```
 ~/campus-virtual/2021/learning/gh-learning/gh-org-clone(master)]$ ./gh org-clone -s markdown-fuegonellaa -y -p tmp/
