@@ -1,4 +1,4 @@
-# gh-clone-org
+# gh-org-clone
 
 A github-cli extension script to clone all repositories in an organization, optionally filtering by topic or a search string. If the repository has already been cloned it will attempt to switch to the default branch and pull.
 
@@ -11,21 +11,13 @@ gh extension install matt-bartel/gh-clone-org
 ```
 
 ```
-[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh extension install crguezl/clone-orgextension repository name must start with `gh-`
-[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh extension install crguezl/gh-clone-org
-Clonando en '/Users/casianorodriguezleon/.local/share/gh/extensions/gh-clone-org'...
-remote: Enumerating objects: 53, done.
-remote: Counting objects: 100% (53/53), done.
-remote: Compressing objects: 100% (39/39), done.
-remote: Total 53 (delta 20), reused 40 (delta 13), pack-reused 0
-Recibiendo objetos: 100% (53/53), 13.51 KiB | 6.76 MiB/s, listo.
-Resolviendo deltas: 100% (20/20), listo.
+$ gh extension install crguezl/gh-org-clone
 ```
 
 ## Usage
 
 ```txt
-gh clone-org [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG
+gh org-clone [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG
   ORG
     Github organization. Required if the GITHUB_ORG environment variable is not set.
   -y, --yes
@@ -47,9 +39,9 @@ gh clone-org [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG
 ## Examples
 
 ```
-$ gh clone-org -s iaas -n ULL-ESIT-DMSI-1920
+$ gh org-clone -s iaas -n ULL-ESIT-DMSI-1920
 Retrieving the list of repositories: search/repositories?q=org%3AULL-ESIT-DMSI-1920%20iaas
-This would have cloned the following 6 repositories to /Users/casianorodriguezleon/campus-virtual/2021/learning/gh-learning/gh-clone-org:
+This would have cloned the following 6 repositories to /Users/casianorodriguezleon/campus-virtual/2021/learning/gh-learning/gh-org-clone:
 ULL-ESIT-DMSI-1920/p1-t1-iaas-alu0101232812
 ULL-ESIT-DMSI-1920/p1-t1-iaas-alu0100592306
 ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
@@ -62,9 +54,9 @@ ULL-ESIT-DMSI-1920/p1-t1-iaas-lauramanzini
 
 ```
 $ export GITHUB_ORG=ULL-ESIT-DMSI-1920
-$ gh clone-org -s fuegonella  -n
+$ gh org-clone -s fuegonella  -n
 Retrieving the list of repositories: search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella
-This would have cloned the following 3 repositories to /Users/casianorodriguezleon/campus-virtual/2021/learning/gh-learning/gh-clone-org:
+This would have cloned the following 3 repositories to /Users/casianorodriguezleon/campus-virtual/2021/learning/gh-learning/gh-org-clone:
 ULL-ESIT-DMSI-1920/markdown-fuegonellaa
 ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa
 ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
@@ -72,7 +64,7 @@ ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
 
 ### How it works 
 
-To obtain the repos `gh-clone-org` makes a request like:
+To obtain the repos `gh-org-clone` makes a request like:
 
 ```
 $ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella
@@ -118,7 +110,7 @@ The json is very large and contains a lot of information!
 We can make use of [jq](https://ull-esit-dmsi-1920.github.io/tema1-introduccion/jq) to filter the results:
 
 ```
-[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella | jq .items[].full_name -
+[~/campus-virtual/2021/learning/gh-learning/gh-org-clone(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella | jq .items[].full_name -
 "ULL-ESIT-DMSI-1920/markdown-fuegonellaa"
 "ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa"
 "ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa"
@@ -130,26 +122,26 @@ But first, let avoid the `gh` default paginator:
 
 
 ```
-[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh  config set pager cat
-[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh  config get pager
+[~/campus-virtual/2021/learning/gh-learning/gh-org-clone(master)]$ gh  config set pager cat
+[~/campus-virtual/2021/learning/gh-learning/gh-org-clone(master)]$ gh  config get pager
 cat
 ```
 
 and here it is the output using `--jq`:
 
 ```
-[~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella --jq .items[].full_name 
+[~/campus-virtual/2021/learning/gh-learning/gh-org-clone(master)]$ gh api --paginate /search/repositories?q=org%3AULL-ESIT-DMSI-1920%20fuegonella --jq .items[].full_name 
 ULL-ESIT-DMSI-1920/markdown-fuegonellaa
 ULL-ESIT-DMSI-1920/pb-gh-campus-expert-fuegonellaa
 ULL-ESIT-DMSI-1920/p1-t1-iaas-fuegonellaa
 ```
 
-### what happens if one of the repos already exists
+### What happens if one of the repos already exists
 
 If the repo already exists the script attempts to pull the last version of the default branch
 
 ```
-~/campus-virtual/2021/learning/gh-learning/gh-clone-org(master)]$ ./gh clone-org -s markdown-fuegonellaa -y -p tmp/
+~/campus-virtual/2021/learning/gh-learning/gh-org-clone(master)]$ ./gh org-clone -s markdown-fuegonellaa -y -p tmp/
 Retrieving the list of repositories: QUERY=search/repositories?q=org%3AULL-ESIT-DMSI-1920%20markdown-fuegonellaa JQ_QUERY=.items[].full_name
 Cloning 1 repositories to tmp/...
 ULL-ESIT-DMSI-1920/markdown-fuegonellaa

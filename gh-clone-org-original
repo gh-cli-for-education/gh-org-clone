@@ -4,7 +4,7 @@ set -e
 
 usage()
 {
-  echo "gh clone-org [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG"
+  echo "gh org-clone [-t TOPIC] [-s QUERY] [-p PATH] [-y] ORG"
   echo "  ORG"
   echo "    Github organization. Required if the GITHUB_ORG environment variable is not set."
   echo "  -y, --yes"
