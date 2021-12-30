@@ -4,12 +4,6 @@ A github-cli extension script to clone all repositories in an organization, opti
 
 ## Installation
 
-The original version is here:
-
-```bash
-gh extension install matt-bartel/gh-clone-org
-```
-
 ```
 $ gh extension install crguezl/gh-org-clone
 ```
