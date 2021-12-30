@@ -1,0 +1,29 @@
+{
+  "name": "gh-org-clone",
+  "version": "3.0.0",
+  "description": "",
+  "main": "gh-org-clone.js",
+  "scripts": {
+    "push": "git ci -am 'new version'; git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crguezl/gh-org-clone.git"
+  },
+  "keywords": [
+    "gh-extension",
+    "ULL"
+  ],
+  "author": "Casiano Rodriguez Leon <crguezl@ull.edu.es> (https://crguezl.github.io/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/crguezl/gh-org-clone/issues"
+  },
+  "homepage": "https://github.com/crguezl/gh-org-clone#readme",
+  "dependencies": {
+    "commander": "^8.2.0",
+    "concurrently": "^6.3.0",
+    "shelljs": "^0.8.4",
+    "tmp": "^0.2.1"
+  }
+}
