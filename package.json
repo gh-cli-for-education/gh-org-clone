@@ -21,9 +21,7 @@
   },
   "homepage": "https://github.com/crguezl/gh-org-clone#readme",
   "dependencies": {
-    "commander": "^8.2.0",
-    "concurrently": "^6.3.0",
-    "shelljs": "^0.8.4",
-    "tmp": "^0.2.1"
+    "@crguezl/gh-utilities": "^3.0.0",
+    "commander": "^8.2.0"
   }
 }
