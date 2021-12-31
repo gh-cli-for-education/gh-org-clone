@@ -24,7 +24,7 @@ const {
   fzfGetOrg,
   //addImplicitOrgIfNeeded,
   addSubmodules
-} = require('@crguezl/gh-utilities.js');
+} = require('@crguezl/gh-utilities');
 
 const { Command } = require('commander');
 
