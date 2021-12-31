@@ -347,25 +347,20 @@ function fzfGetRepos(org) {
   return result.stdout.replace(/\s+$/,'')  
   */
 
-  try {
-    let queryResult = executeQuery(allRepos(org));
-    let result = queryResult.organization.repositories.edges.map(r => r.node.name).join("\n");
-    const name = tmp.tmpNameSync();
-    fs.writeFileSync(name, result)
-    //console.log('Created temporary filename: ', name);
-    let command = `cat ${name} | fzf -m --prompt='${org}:Choose repos to download> '`;
-    let fzfresult = shell.exec(command, { silent: false });
-    if (fzfresult.code !== 0) {
-      console.error(`There were errors ${fzfresult.code}`);
-      process.exit(rfzfesult.code);
-    }
-    let repoSpec =  fzfresult.stdout.replace(/\s+$/,'').split(/\s+/).join(',');
-    //console.log(`----\n${repoSpec}\n----`);
-    return repoSpec;
-  } catch (e) {
-    return [];
+  let queryResult = executeQuery(allRepos(org));
+  let result = queryResult.organization.repositories.edges.map(r => r.node.name).join("\n");
+  const name = tmp.tmpNameSync();
+  fs.writeFileSync(name, result)
+  //console.log('Created temporary filename: ', name);
+  let command = `cat ${name} | fzf -m --prompt='${org}:Choose repos to download> '`;
+  let fzfresult = shell.exec(command, { silent: false });
+  if (fzfresult.code !== 0) {
+    console.error(`There were errors ${fzfresult.code}`);
+    process.exit(rfzfesult.code);
   }
-
+  let repoSpec =  fzfresult.stdout.replace(/\s+$/,'').split(/\s+/).join(',');
+  //console.log(`----\n${repoSpec}\n----`);
+  return repoSpec;
 }
 exports.fzfGetRepos = fzfGetRepos;
 
