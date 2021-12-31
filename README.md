@@ -8,6 +8,7 @@ A github-cli extension script to clone all repositories in an organization, opti
 $ gh extension install crguezl/gh-org-clone
 ```
 
+It is conveient to have installed [fzf](https://github.com/junegunn/fzf/blob/master/README.md)
 ## Usage
 
 ```txt
