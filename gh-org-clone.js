@@ -24,7 +24,7 @@ const {
   fzfGetOrg,
   //addImplicitOrgIfNeeded,
   addSubmodules
-} = require(path.join(__dirname,'utilities.js'));
+} = require('@crguezl/gh-utilities.js');
 
 const { Command } = require('commander');
 
