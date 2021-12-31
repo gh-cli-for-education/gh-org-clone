@@ -149,8 +149,10 @@ function getRepoListFromAPISearch(options, org) {
     fs.writeFileSync(name, result)
 
     //console.log('Created temporary filename: ', name);
-    let command = `cat ${name} | fzf -m --prompt='${org}:Choose repos to download> '`;
+    let command = `cat ${name} | fzf -m --prompt='${org}:Use tab to choose repos to download> ' --layout=reverse --border`;
     let fzfresult = shell.exec(command, { silent: false });
+    console.clear();
+
     if (!fzfresult || fzfresult.code !== 0) {
       return [];
     }
@@ -368,7 +370,7 @@ function RepoIsEmpty(ownerSlashRepo) {
 exports.RepoIsEmpty = RepoIsEmpty;
 
 function fzfGetOrg() {
-  let command = `gh api --paginate /user/memberships/orgs  --jq '.[].organization | .login' | fzf  --prompt='choose an organization> '`;
+  let command = `gh api --paginate /user/memberships/orgs  --jq '.[].organization | .login' | fzf  --prompt='Choose an organization> ' --layout=reverse --border`;
   let orgResult = shell.exec(command, { silent: false });
   //console.log(orgResult);
   //console.log(`'${orgResult.stdout}'`);
