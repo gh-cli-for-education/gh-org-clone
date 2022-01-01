@@ -3,7 +3,7 @@ const deb = (...args) => {
     if (debug) console.log(ins(...args, {depth: null})); 
 };
 
-const path = require('path');
+//const path = require('path');
 const shell = require('shelljs');
 
 const { 
@@ -32,7 +32,8 @@ const program = new Command();
 program.version(require('./package.json').version);
 
 program
-  .name("gh org-clone [options] [organization]")
+  .name("gh org-clone [options] [organization] [git clone options]")
+  .allowUnknownOption()
   .option('-s, --search <query>', "search <query> using GitHub Search API. A dot '.' refers to all the repos")
   .option('-r, --regexp <regexp>', 'filter <query> results using <regexp>')
   .option('-c, --csr <comma separated list of repos>', 'the list of repos is specified as a comma separated list')
@@ -46,7 +47,9 @@ program.addHelpText('after', `
   - If the organization is not explicitly specified the selection will be done interactively among the list of your organizations
   - You can set the default organization through the GITHUB_ORG environment variable
   - If no repos are specified the selection of repos will be done interactively among the repos in the org 
-  - Option '-s' assumes all the repos belong to the same org`
+  - Option '-s' assumes all the repos belong to the same org
+  - Not conflicting "git clone" options as "--recurse-submodules" can be passed 
+  `
 );
   
 program.parse(process.argv);
@@ -103,7 +106,15 @@ if (options.dryrun) {
 
 let urls = names2urls(repos);
 
-addSubmodules(urls, repos, options.parallel, options.depth, true, program.args);
+addSubmodules({
+  urls, 
+  repos, 
+  parallel: options.parallel, 
+  depth: options.depth, 
+  cloneOnly: true, 
+  submoduleArgs: [],
+  cloneArgs: program.args,
+});
 
 /*
 
