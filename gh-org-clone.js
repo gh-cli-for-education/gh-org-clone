@@ -54,6 +54,7 @@ program.addHelpText('after', `
   - Option '-s' assumes all the repos belong to the same org
   - When called with option  '-s .', the dot '.' refers to all the repos.  fzf will be open to select the repos
   - Not conflicting "git clone" options as "--recurse-submodules" can be passed as additional options
+  - When in fzf, use CTRL-A to select all, tab to select/deselect
   `
 );
   
