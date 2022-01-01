@@ -1,6 +1,6 @@
 {
   "name": "gh-org-clone",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "",
   "main": "gh-org-clone.js",
   "scripts": {
