@@ -23,7 +23,8 @@ const {
   getRepoList,
   fzfGetOrg,
   //addImplicitOrgIfNeeded,
-  addSubmodules
+  addSubmodules,
+  setDefaultOrg
 } = require('@crguezl/gh-utilities');
 
 const { Command } = require('commander');
@@ -32,23 +33,27 @@ const program = new Command();
 program.version(require('./package.json').version);
 
 program
-  .name("gh org-clone [options] [organization] [git clone options]")
+  .name("gh org-clone")
+  .usage("[options] [organization] [options for git clone]")
   .allowUnknownOption()
-  .option('-s, --search <query>', "search <query> using GitHub Search API. A dot '.' refers to all the repos")
+  .option('-s, --search <query>', "search <query> using GitHub Search API")
   .option('-r, --regexp <regexp>', 'filter <query> results using <regexp>')
   .option('-c, --csr <comma separated list of repos>', 'the list of repos is specified as a comma separated list')
   .option('-f, --file <file>', 'file with the list of repos, one per line')
-  .option('-n --dryrun','just show what repos will be added as submodules')
-  .option('-o --org <org>', 'default organization or user')
+  .option('-n --dryrun','just show what repos will be cloned')
+  .option('-o --org <org>', 'Use as organization')
+  .option('   --default', 'Implies "-o <org>". Set "org" as default organization for future uses')
   .option('-D --depth <depth>','Create a shallow clone with a history truncated to <depth> number of commits')
   .option('-p --parallel <int>', 'number of concurrent  processes during the cloning stage', 2);
 
 program.addHelpText('after', `
-  - If the organization is not explicitly specified the selection will be done interactively among the list of your organizations
-  - You can set the default organization through the GITHUB_ORG environment variable
+  - If the organization is not explicitly specified or there is a default org, 
+    the selection will be done interactively among the list of your organizations
+  - You can set the default organization through the "--default" option for future uses of this program
   - If no repos are specified the selection of repos will be done interactively among the repos in the org 
   - Option '-s' assumes all the repos belong to the same org
-  - Not conflicting "git clone" options as "--recurse-submodules" can be passed 
+  - When called with option  '-s .', the dot '.' refers to all the repos.  fzf will be open to select the repos
+  - Not conflicting "git clone" options as "--recurse-submodules" can be passed as additional options
   `
 );
   
@@ -73,7 +78,13 @@ if (!shell.which('gh')) {
 debugger;
 if (!options.org && (program.args.length == 1) ) options.org = program.args.shift();
 
-let org = options.org ||  process.env["GITHUB_ORG"] || fzfGetOrg();
+let org = options.org || fzfGetOrg();
+
+if (options.default) setDefaultOrg(org);
+
+
+// Set org as default org 
+
 
 let repos = getRepoList(options, org);
 
