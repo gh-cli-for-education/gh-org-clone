@@ -71,3 +71,19 @@ The variable `current-org` has been set inside the gh configuration for later us
 ULL-ESIT-DMSI-1920
 ```
 
+## Default Org Alias
+
+I use this extension in combination with these two alias:
+
+```
+$ gh alias set cd !'gh config set current-org "$1"'
+$ gh alias set pwd !'gh config get current-org'
+```
+
+Example of use: 
+
+```
+$ gh cd ULL-MII-SYTWS-2122
+$ gh pwd
+ULL-MII-SYTWS-2122
+```
