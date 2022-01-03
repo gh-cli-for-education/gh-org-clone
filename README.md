@@ -10,6 +10,11 @@ $ gh extension install crguezl/gh-org-clone
 
 It is convenient to have installed [fzf](https://github.com/junegunn/fzf/blob/master/README.md)
 
+## Requirements
+
+Node.js has to be installed.
+To have fzf installed is convenient but not essential.
+
 ## Usage
 
 ```txt
@@ -76,7 +81,7 @@ ULL-ESIT-DMSI-1920
 I use this extension in combination with these two alias:
 
 ```
-$ gh alias set cd !'gh config set current-org "$1"'
+$ gh alias set cd '!gh config set current-org "$1" 2>/dev/null'
 $ gh alias set pwd !'gh config get current-org'
 ```
 
@@ -86,4 +91,6 @@ Example of use:
 $ gh cd ULL-MII-SYTWS-2122
 $ gh pwd
 ULL-MII-SYTWS-2122
+$ gh cd ''
+$ gh pwd
 ```
