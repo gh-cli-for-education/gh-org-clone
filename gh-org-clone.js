@@ -42,7 +42,7 @@ program
   .option('-f, --file <file>', 'file with the list of repos, one per line')
   .option('-n --dryrun','just show what repos will be cloned')
   .option('-o --org <org>', 'Use as organization')
-  .option('   --default', 'Implies "-o <org>". Set "org" as default organization for future uses')
+  .option('   --default', 'Set "org" as default organization for future uses')
   .option('-D --depth <depth>','Create a shallow clone with a history truncated to <depth> number of commits')
   .option('-p --parallel <int>', 'number of concurrent  processes during the cloning stage', 2);
 
