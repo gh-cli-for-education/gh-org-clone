@@ -9,7 +9,7 @@ fi
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # Pass arguments through to another command
-node ${SCRIPT_DIR}/gh-org-clone.js "$@" 
+node "${SCRIPT_DIR}/gh-org-clone.js" "$@" 
 
 # Using the gh api command to retrieve and format information
 # QUERY='
