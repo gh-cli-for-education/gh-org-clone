@@ -40,6 +40,7 @@ program
   .option('-r, --regexp <regexp>', 'filter <query> results using <regexp>')
   .option('-c, --csr <comma separated list of repos>', 'the list of repos is specified as a comma separated list')
   .option('-f, --file <file>', 'file with the list of repos, one per line')
+  .option('-k, --fork <value>', 'Include fork repos. Legal values: "true", "only", "false". Default is "true"')
   .option('-n --dryrun','just show what repos will be cloned')
   .option('-o --org <org>', 'Use as organization')
   .option('   --default', 'Set "org" as default organization for future uses')

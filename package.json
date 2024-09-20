@@ -1,6 +1,6 @@
 {
   "name": "gh-org-clone",
-  "version": "5.0.3",
+  "version": "5.1.0",
   "description": "",
   "main": "gh-org-clone.js",
   "scripts": {
@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/crguezl/gh-org-clone#readme",
   "dependencies": {
-    "@crguezl/gh-utilities": "latest",
     "commander": "^8.2.0",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.4",
+    "@crguezl/gh-utilities": "latest"
   }
 }
