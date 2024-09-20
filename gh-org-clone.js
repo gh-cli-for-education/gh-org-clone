@@ -36,16 +36,16 @@ program
   .name("gh org-clone")
   .usage("[options] [organization] [options for git clone]")
   .allowUnknownOption()
-  .option('-s, --search <query>', "search <query> using GitHub Search API")
-  .option('-r, --regexp <regexp>', 'filter <query> results using <regexp>')
-  .option('-c, --csr <comma separated list of repos>', 'the list of repos is specified as a comma separated list')
-  .option('-f, --file <file>', 'file with the list of repos, one per line')
+  .option('-s, --search <query>', "Sarch <query> using GitHub Search API")
+  .option('-r, --regexp <regexp>', 'Filter <query> results using <regexp>')
+  .option('-c, --csr <comma separated list of repos>', 'The list of repos is specified as a comma separated list')
+  .option('-f, --file <file>', 'File with the list of repos, one per line')
   .option('-k, --fork <value>', 'Include fork repos. Legal values: "true", "only", "false". Default is "true"')
-  .option('-n --dryrun','just show what repos will be cloned')
+  .option('-n --dryrun','Just show what repos will be cloned')
   .option('-o --org <org>', 'Use as organization')
   .option('   --default', 'Set "org" as default organization for future uses')
   .option('-D --depth <depth>','Create a shallow clone with a history truncated to <depth> number of commits')
-  .option('-p --parallel <int>', 'number of concurrent  processes during the cloning stage', 2);
+  .option('-p --parallel <int>', 'Max. number of concurrent  processes during the cloning stage', 2);
 
 program.addHelpText('after', `
   - If the organization is not explicitly specified or there is a default org, 

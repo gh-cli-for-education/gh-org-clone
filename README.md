@@ -30,19 +30,19 @@ Usage: gh org-clone [options] [organization] [options for git clone]
 Usage: gh org-clone [options] [organization] [options for git clone]
 
 Options:
-  -V, --version                              output the version number
-  -s, --search <query>                       search <query> using GitHub Search API
-  -r, --regexp <regexp>                      filter <query> results using <regexp>
-  -c, --csr <comma separated list of repos>  the list of repos is specified as a comma separated list
-  -f, --file <file>                          file with the list of repos, one per line
+  -V, --version                              Output the version number
+  -s, --search <query>                       Search <query> using GitHub Search API
+  -r, --regexp <regexp>                      Filter <query> results using <regexp>
+  -c, --csr <comma separated list of repos>  The list of repos is specified as a comma separated list
+  -f, --file <file>                          File with the list of repos, one per line
   -k, --fork <value>                         Include fork repos. Legal values: "true", "only", "false". Default is
                                              "true"
-  -n --dryrun                                just show what repos will be cloned
+  -n --dryrun                                Just show what repos will be cloned
   -o --org <org>                             Use as organization
      --default                               Set "org" as default organization for future uses
   -D --depth <depth>                         Create a shallow clone with a history truncated to <depth> number of
                                              commits
-  -p --parallel <int>                        number of concurrent  processes during the cloning stage (default: 2)
+  -p --parallel <int>                        Maximum number of concurrent  processes during the cloning stage (default: 2)
   -h, --help                                 display help for command
 
   - If the organization is not explicitly specified or there is a default org, 
