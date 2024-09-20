@@ -36,7 +36,7 @@ program
   .name("gh org-clone")
   .usage("[options] [organization] [options for git clone]")
   .allowUnknownOption()
-  .option('-s, --search <query>', "Sarch <query> using GitHub Search API")
+  .option('-s, --search <query>', "Search <query> using GitHub Search API")
   .option('-r, --regexp <regexp>', 'Filter <query> results using <regexp>')
   .option('-c, --csr <comma separated list of repos>', 'The list of repos is specified as a comma separated list')
   .option('-f, --file <file>', 'File with the list of repos, one per line')
