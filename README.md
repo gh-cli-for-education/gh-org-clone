@@ -4,11 +4,12 @@ A github-cli extension script to clone all repositories in an organization, opti
 
 ## Installation
 
+Yo can install the extension from the [original repository](https://github.com/crguezl/gh-org-clone/tree/main):
 ```
 $ gh extension install crguezl/gh-org-clone
 ```
 
-or 
+or you can install the [synced version at the GitHub CLI for Education organization](https://github.com/gh-cli-for-education/gh-org-clone):
 
 ```
 $ gh extension install gh-cli-for-education/gh-org-clone
